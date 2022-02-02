@@ -1,0 +1,291 @@
+﻿@page
+@model ASPNetCore5.Pages.Crypto.IndexModel
+@{
+	ViewData["Title"] = "Crypto";
+}
+
+<div class="row">
+	<div class="col-md-12 mb-3">
+		<button class="btn btn-lg btn-success w-100" onclick="TestConsole()"><i class="fa fa-play"></i> Run Test Console</button>
+	</div>
+	<div class="col-lg-12 mb-3">
+		<div class="card">
+			<div class="card-header bg-transparent">
+				<div class="card-title text-primary">
+					<h5>Crypto Encryption & Decryption (Client-to-Client)</h5>
+				</div>
+			</div>
+			<div class="card-body">
+				<p><span class="btn-sm btn-secondary">String Parameter&nbsp;<i class="fa fas fa-chevron-circle-right"></i> </span>&nbsp;</p>
+				<div class="input-group mb-3">
+					<input id="txtclient" type="text" class="form-control border-primary" placeholder="Enter some text ..." value="Hello World">
+					<button class="btn btn-primary" onclick="ClientSide()" type="submit">Submit</button>
+				</div>
+
+				<h6 class="text-muted">Sample Code (JavaScripts)</h6>
+				<div class="card border-0 border-start border-info border-3 bg-light mb-3">
+					<div class="card-body">
+						<code>
+							// Encryption Code
+							var key = CryptoJS.enc.Utf8.parse('8056483646328763'); <br />
+							var iv = CryptoJS.enc.Utf8.parse('8056483646328763'); <br />
+							var encrypted_utf = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(inputString), key, <br />
+							{ <br />
+							&nbsp;&nbsp;&nbsp;&nbsp; keySize: 128 / 8, <br />
+							&nbsp;&nbsp;&nbsp;&nbsp; iv: iv, <br />
+							&nbsp;&nbsp;&nbsp;&nbsp; mode: CryptoJS.mode.CBC, <br />
+							&nbsp;&nbsp;&nbsp;&nbsp; padding: CryptoJS.pad.Pkcs7 <br />
+							}).toString(); <br />
+						</code>
+					</div>
+				</div>
+				<div class="card border-0 border-start border-info border-3 bg-light mb-3">
+					<div class="card-body">
+						<code>
+							// Decryption Code
+							var key = CryptoJS.enc.Utf8.parse('8056483646328763');<br />
+							var iv = CryptoJS.enc.Utf8.parse('8056483646328763');<br />
+							var decrypt_utf = CryptoJS.AES.decrypt(id, key, <br />
+							{ <br />
+							&nbsp;&nbsp;&nbsp;&nbsp; keySize: 128 / 8, <br />
+							&nbsp;&nbsp;&nbsp;&nbsp; iv: iv, <br />
+							&nbsp;&nbsp;&nbsp;&nbsp; mode: CryptoJS.mode.CBC, <br />
+							&nbsp;&nbsp;&nbsp;&nbsp; padding: CryptoJS.pad.Pkcs7 <br />
+							}); <br />
+							var result = decrypt_utf.toString(CryptoJS.enc.Utf8));
+						</code>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12">
+		<div class="card">
+			<div class="card-header bg-transparent">
+				<div class="card-title text-primary">
+					<h5>Crypto Encryption & Decryption (Server-Side)</h5>
+				</div>
+			</div>
+			<div class="card-body">
+				<p><span class="btn-sm btn-secondary">String Parameter&nbsp;<i class="fa fas fa-chevron-circle-right"></i> </span>&nbsp;</p>
+				<!-- Client to Server -->
+				<div id="clientDIV">
+					<p class="text-muted mb-2"><b>Client-to-Server</b></p>
+					<div class="input-group mb-3">
+						<input id="txtserver" type="text" class="form-control border-primary" placeholder="Enter some text ..." value="Hello World">
+						<button class="btn btn-primary" onclick="ServerSide()">Submit</button>
+					</div>
+				</div>
+				<div class="card border-0 border-start border-primary border-3 bg-light mb-3">
+					<div class="card-body">
+						<span>Firstly, Send Javascript Encryption Input String.<br /> Then, Receive from C# behind code</span>
+					</div>
+				</div>
+				<!-- Server to Server -->
+				<div id="clientDIV">
+					<p class="text-muted mb-2"><b>Server-to-Server</b></p>
+					<form method="post">
+						<div class="input-group mb-3">
+							<input id="txtserver" type="text" class="form-control border-primary" placeholder="Enter some text ..." value="Hello World">
+							<button class="btn btn-primary" onclick="ClientSide()" type="submit">Submit</button>
+						</div>
+					</form>
+				</div>
+				<div class="card border-0 border-start border-primary border-3 bg-light mb-3">
+					<div class="card-body">
+						<span>Firstly, Send C# behind code Encryption Input String.<br /> Then, Receive from C# behind code</span>
+					</div>
+				</div>
+				<!-- Sample Code -->
+				<h6 class="text-muted">Sample Code (C#)</h6>
+				<div class="card border-0 border-start border-info border-3 bg-light mb-3">
+					<div class="card-body">
+						<code>
+							public string EncryptStringAES(string plainText)<br />
+							{<br />
+							&nbsp;&nbsp;var keybytes = Encoding.UTF8.GetBytes("8056483646328763");<br />
+							&nbsp;&nbsp;var iv = Encoding.UTF8.GetBytes("8056483646328763");<br />
+							&nbsp;&nbsp;//Encrypt FROM CRIPTOJS<br />
+							&nbsp;&nbsp;var encryptvalue = EncryptStringValue(plainText, keybytes, iv);<br />
+							&nbsp;&nbsp;return Convert.ToBase64String(encryptvalue);<br />
+							}<br /><br />
+						</code>
+						<code>
+							public static byte[] EncryptStringValue(string plainText, byte[] key, byte[] iv) <br />
+							{<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;// Check arguments. <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;if (plainText == null || plainText.Length <= 0) <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;{ <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentNullException(nameof(plainText)); <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;} <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;if (key == null || key.Length <= 0) <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;{ <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentNullException(nameof(key)); <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;} <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;if (iv == null || iv.Length <= 0) <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;{ <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentNullException(nameof(key)); <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;} <br />
+							&nbsp;&nbsp; <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;byte[] encrypted; <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;// Create an RijndaelManaged object <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;// with the specified key and IV. <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;using var rijAlg = new RijndaelManaged(); <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;//Settings <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;rijAlg.Mode = CipherMode.CBC; <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;rijAlg.Padding = PaddingMode.PKCS7; <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;rijAlg.FeedbackSize = 128; <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;rijAlg.Key = key; <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;rijAlg.IV = iv; <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;//// Create a encryptor to perform the stream transform. <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;var encryptor = rijAlg.CreateEncryptor(rijAlg.Key, rijAlg.IV); <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;//// Create the streams used for decryption. <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;//using var msEncrypt = new MemoryStream(plainText,); <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;//using var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Read); <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;//using var srEncrypt = new StreamReader(csEncrypt); <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;//string plaintext = srEncrypt.ReadToEnd(); <br />
+							&nbsp;&nbsp; <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;using (MemoryStream msEncrypt = new MemoryStream()) <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;{ <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//Write all data to the stream.<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;swEncrypt.Write(plainText);<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; encrypted = msEncrypt.ToArray();<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;}<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;return encrypted;<br />
+							}
+						</code>
+					</div>
+				</div>
+				<div class="card border-0 border-start border-info border-3 bg-light mb-3">
+					<div class="card-body">
+						<code>
+							public string DecryptStringAES(string encryptedValue) <br />
+							{ <br />
+							&nbsp;&nbsp;var keybytes = Encoding.UTF8.GetBytes("8056483646328763"); <br />
+							&nbsp;&nbsp;var iv = Encoding.UTF8.GetBytes("8056483646328763"); <br />
+							&nbsp;&nbsp;//DECRYPT FROM CRIPTOJS <br />
+							&nbsp;&nbsp;var encrypted = Convert.FromBase64String(encryptedValue); <br />
+							&nbsp;&nbsp;var decryptedFromJavascript = DecryptStringFromBytes(encrypted, keybytes, iv); <br />
+							&nbsp;&nbsp;return decryptedFromJavascript; <br />
+							}<br />
+						</code>
+						<code>
+							public static string DecryptStringFromBytes(byte[] cipherText, byte[] key, byte[] iv) <br />
+							{ <br />
+							&nbsp;&nbsp;// Check arguments. <br />
+							&nbsp;&nbsp;if (cipherText == null || cipherText.Length <= 0) <br />
+							&nbsp;&nbsp;{ <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentNullException(nameof(cipherText)); <br />
+							&nbsp;&nbsp;} <br />
+							&nbsp;&nbsp;if (key == null || key.Length <= 0) <br />
+							&nbsp;&nbsp;{ <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentNullException(nameof(key)); <br />
+							&nbsp;&nbsp;} <br />
+							&nbsp;&nbsp;if (iv == null || iv.Length <= 0) <br />
+							&nbsp;&nbsp;{ <br />
+							&nbsp;&nbsp;&nbsp;&nbsp;throw new ArgumentNullException(nameof(key)); <br />
+							&nbsp;&nbsp;} <br />
+							&nbsp;&nbsp;// Declare the string used to hold <br />
+							&nbsp;&nbsp;// the decrypted text. <br />
+							&nbsp;&nbsp;string plaintext = null; <br />
+							&nbsp;&nbsp;// Create an RijndaelManaged object <br />
+							&nbsp;&nbsp;// with the specified key and IV. <br />
+							&nbsp;&nbsp;using var rijAlg = new RijndaelManaged(); <br />
+							&nbsp;&nbsp;//Settings <br />
+							&nbsp;&nbsp;rijAlg.Mode = CipherMode.CBC; <br />
+							&nbsp;&nbsp;rijAlg.Padding = PaddingMode.PKCS7; <br />
+							&nbsp;&nbsp;rijAlg.FeedbackSize = 128; <br />
+							&nbsp;&nbsp;rijAlg.Key = key; <br />
+							&nbsp;&nbsp;rijAlg.IV = iv; <br />
+							&nbsp;&nbsp;// Create a decrytor to perform the stream transform. <br />
+							&nbsp;&nbsp;var decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV); <br />
+							&nbsp;&nbsp;// Create the streams used for decryption. <br />
+							&nbsp;&nbsp;using var msDecrypt = new MemoryStream(cipherText); <br />
+							&nbsp;&nbsp;using var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read); <br />
+							&nbsp;&nbsp;using var srDecrypt = new StreamReader(csDecrypt); <br />
+							&nbsp;&nbsp;// Read the decrypted bytes from the decrypting stream <br />
+							&nbsp;&nbsp;// and place them in a string. <br />
+							&nbsp;&nbsp;plaintext = srDecrypt.ReadToEnd(); <br />
+							&nbsp;&nbsp;return plaintext; <br />
+							}
+						</code>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<partial name="_ScriptsPartial" />
+<script>
+	function TestConsole() {
+
+		//////////////
+		console.log('Sample 1');
+		var encrypted = CryptoJS.AES.encrypt("Hello World", "para");
+		console.log('Encrypt :' + encrypted.toString());
+
+		var decrypted = CryptoJS.AES.decrypt(encrypted, "para");
+		console.log('Decrypted: ' + decrypted);
+		console.log('Decrypted String: ' + decrypted.toString(CryptoJS.enc.Utf8));
+
+
+
+		//////////////
+		console.log('Sample 2');
+		var key = CryptoJS.enc.Utf8.parse('8056483646328763');
+		var iv = CryptoJS.enc.Utf8.parse('8056483646328763');
+		var encrypted_utf = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse("Hello World"), key,
+			{
+				keySize: 128 / 8,
+				iv: iv,
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			}).toString();
+		console.log('Encrypt UTF-Key :' + encrypted_utf);
+
+		var decrypt_utf = CryptoJS.AES.decrypt(encrypted_utf, key,
+			{
+				keySize: 128 / 8,
+				iv: iv,
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			});
+		console.log('Decrypt UTF-Key : ' + decrypt_utf.toString());
+		console.log('Decrypt Result UTF-Key : ' + decrypt_utf.toString(CryptoJS.enc.Utf8));
+
+	}
+
+	function ClientSide() {
+		var inputString = $('#txtclient').val();
+		var key = CryptoJS.enc.Utf8.parse('8056483646328763');
+		var iv = CryptoJS.enc.Utf8.parse('8056483646328763');
+		var encrypted_utf = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(inputString), key,
+			{
+				keySize: 128 / 8,
+				iv: iv,
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			}).toString();
+		window.location.href = "/Crypto/ClientSide?id=" + encodeURIComponent(encrypted_utf);
+	}
+
+	function ServerSide() {
+		var inputString = $('#txtserver').val();
+		var key = CryptoJS.enc.Utf8.parse('8056483646328763');
+		var iv = CryptoJS.enc.Utf8.parse('8056483646328763');
+		var encrypted_utf = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(inputString), key,
+			{
+				keySize: 128 / 8,
+				iv: iv,
+				mode: CryptoJS.mode.CBC,
+				padding: CryptoJS.pad.Pkcs7
+			}).toString();
+		window.location.href = "/Crypto/ServerSide?id=" + encrypted_utf;
+	}
+</script>

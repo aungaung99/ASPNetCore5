@@ -1,0 +1,28 @@
+﻿@page
+@model ASPNetCore5.Pages.Crypto.ServerSideModel
+@{
+	ViewData["Title"] = "Client Side | Crypto";
+}
+<div class="row d-flex justify-content-center">
+	<div class="col-xxl-5 col-xl-6 col-lg-7 col-md-8">
+		<div class="card">
+			<div class="card-header">
+				<h5>Crypto Decrypted Value</h5>
+			</div>
+			<div class="card-body">
+				<h6 class="text-secondary">Decrypted Value (Client Side)</h6>
+				<hr />
+				<div class="mb-3">
+					<span class="btn-sm btn-secondary">Encrypt Value&nbsp;<i class="fa fas fa-chevron-circle-right"></i> </span>&nbsp;
+					<span>@ViewData["encrypt"]</span>
+				</div>
+				<div class="mb-3">
+					<span class="btn-sm btn-secondary">Decrypt Result&nbsp;<i class="fa fas fa-chevron-circle-right"></i> </span>&nbsp;
+					<span>@ViewData["decrypt"]</span>
+				</div>
+				<a asp-page="./Index" class="btn btn-primary">Back</a>
+			</div>
+		</div>
+	</div>
+</div>
+<partial name="_ScriptsPartial" />

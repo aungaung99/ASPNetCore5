@@ -1,0 +1,43 @@
+﻿@page
+@model ASPNetCore5.Pages.Crypto.ClientSideModel
+@{
+	ViewData["Title"] = "Client Side | Crypto";
+}
+<div class="row d-flex justify-content-center">
+	<div class="col-xxl-5 col-xl-6 col-lg-7 col-md-8">
+		<div class="card">
+			<div class="card-header">
+				<h5>Crypto Decrypted Value</h5>
+			</div>
+			<div class="card-body">
+				<h6 class="text-secondary">Decrypted Value (Client Side)</h6>
+				<hr />
+				<div class="mb-3">
+					<span class="btn-sm btn-secondary">Result&nbsp;<i class="fa fas fa-chevron-circle-right"></i> </span>&nbsp;<span id="resultDiv"></span>
+				</div>
+				<a asp-page="./Index" class="btn btn-primary">Back</a>
+			</div>
+		</div>
+	</div>
+</div>
+<partial name="_ScriptsPartial" />
+<script>
+	// GET QUERY String Value
+	var id = (new URL(location.href)).searchParams.get('id');
+	console.log('URL Para : ' + id);
+	var key = CryptoJS.enc.Utf8.parse('8056483646328763');
+	var iv = CryptoJS.enc.Utf8.parse('8056483646328763');
+	var decrypt_utf = CryptoJS.AES.decrypt(id, key,
+		{
+			keySize: 128 / 8,
+			iv: iv,
+			mode: CryptoJS.mode.CBC,
+			padding: CryptoJS.pad.Pkcs7
+		});
+
+	console.log('Decrypted : ' + decrypt_utf);
+	console.log('Decrypted Result : ' + decrypt_utf.toString(CryptoJS.enc.Utf8));
+
+	document.getElementById('resultDiv').innerHTML = decrypt_utf.toString(CryptoJS.enc.Utf8);
+
+</script>

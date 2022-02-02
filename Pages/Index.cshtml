@@ -1,0 +1,37 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "Home page";
+}
+
+
+<div class="row">
+	<div class="col-12 mb-3">
+		<div class="card">
+			<div class="card-body">
+				<div class="text-center">
+					<h1 class="display-4">Welcome</h1>
+					<p>Develop by <a href="#">Aung Naing Oo</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="card">
+			<div class="card-body">
+				<img class="img-fluid float-end" src="~/images/cryptojs.jpg" />
+				<h4 class="card-title text-secondary">Crypto JS</h4>
+
+				<div class="mb-3">
+					<p>Original documentation: https://code.google.com/archive/p/crypto-js/</p>
+					<a href="https://cryptojs.gitbook.io/docs/" target="_blank" class="link-primary">
+						<i class="fa fa-link"></i>&nbsp;References Link
+					</a>
+				</div>
+
+				<a class="btn btn-primary w-100" asp-page="/Crypto/Index">Click Here to Test Page</a>
+			</div>
+		</div>
+	</div>
+</div>
+<partial name="_ScriptsPartial" />
