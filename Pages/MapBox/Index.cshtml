@@ -1,0 +1,81 @@
+﻿@page
+@model ASPNetCore5.Pages.MapBox.IndexModel
+@{
+	ViewData["Title"] = "Map Box";
+}
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+<style>
+
+	#map {
+		width: 100%;
+		height: 400px;
+		margin-top: -15px;
+	}
+
+	.coordinates {
+		background: rgba(0, 0, 0, 0.5);
+		color: #fff;
+		position: absolute;
+		bottom: 40px;
+		left: 10px;
+		padding: 5px 10px;
+		margin: 0;
+		font-size: 11px;
+		line-height: 18px;
+		border-radius: 3px;
+		display: none;
+	}
+</style>
+
+<div class="container">
+	<div id="map"></div>
+	<pre id="coordinates" class="coordinates"></pre>
+	<div class="card mt-3">
+		<div class="card-header">
+			<div class="card-title">Result View</div>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-6">
+					<label class="form-label">Lattitude</label>
+					<input id="txtlat" type="number" class="form-control" />
+				</div>
+				<div class="col-md-6">
+					<label  class="form-label">Longitube</label>
+					<input id="txtlong" type="number" class="form-control" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<partial name="_ScriptsPartial" />
+
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiYXVuZ2F1bmc5OSIsImEiOiJja2YwdG1xdmUxMjJzMnJzMms4M3YzZDc1In0.-hazc9ywY8Q7I-J_zqJdUQ';
+	const coordinates = document.getElementById('coordinates');
+	const map = new mapboxgl.Map({
+		container: 'map',
+		style: 'mapbox://styles/mapbox/streets-v11',
+		center: [96.15, 16.8],
+		zoom: 12
+	});
+
+	const marker = new mapboxgl.Marker({
+		draggable: true
+	})
+		.setLngLat([96.16021793810735, 16.796286707606])
+		.addTo(map);
+
+	function onDragEnd() {
+		const lngLat = marker.getLngLat();
+		coordinates.style.display = 'block';
+		coordinates.innerHTML = `Longitude: ${lngLat.lng}<br />Latitude: ${lngLat.lat}`;
+		$('#txtlat').val(lngLat.lat);
+		$('#txtlong').val(lngLat.lng);
+	}
+
+	marker.on('dragend', onDragEnd);
+
+	map.addControl(new mapboxgl.NavigationControl());
+</script>
