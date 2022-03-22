@@ -1,0 +1,38 @@
+﻿@page
+@model ASPNetCore5.Pages.Select2.IndexModel
+@{
+}
+<link href="~/lib/select2/css/select2.min.css" />
+<link href="~/lib/select2-bootstrap-5-theme/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+<div class="container">
+	<div class="row">
+		<div class="col-xxl-4">
+			<select id="DDLSelect" class="form-control">
+				<option>
+					Hello 1
+				</option>
+				<option>
+					Hello 2
+				</option>
+				<option>
+					Hello 3
+				</option>
+				<option>
+					Hello 4
+				</option>
+			</select>
+		</div>
+	</div>
+</div>
+
+<partial name="_ScriptsPartial" />
+<script src="~/lib/select2/js/select2.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		var data = [{ id: 1, text: 'ss' }];
+
+		$('#DDLSelect').select2({
+			data: data
+		});
+	});
+</script>
